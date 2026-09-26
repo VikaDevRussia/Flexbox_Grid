@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid — Справочник</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">CSS Layout Guide</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="flexbox.html" class="nav-link">Flexbox</a>
+                <a href="grid.html" class="nav-link active">Grid</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="content">
+            <div class="container">
+                <h2>Основы CSS Grid</h2>
+                <p>Grid Layout — это двумерная система сеток. В отличие от Flexbox, она управляет одновременно и строками, и столбцами.</p>
+
+                <div class="grid-demo">
+                    <div class="grid-controls">
+                        <label>
+                            <input type="radio" name="gridTemplate" value="auto" checked> auto-fill
+                        </label>
+                        <label>
+                            <input type="radio" name="gridTemplate" value="areas"> named areas
+                        </label>
+                        <label>
+                            <input type="radio" name="gridTemplate" value="manual"> manual
+                        </label>
+                    </div>
+                    <div class="grid-container" id="gridContainer">
+                        <div class="grid-item" style="--h:2; --w:3;">Header</div>
+                        <div class="grid-item" style="--h:1; --w:1;">Nav</div>
+                        <div class="grid-item" style="--h:1; --w:2;">Main</div>
+                        <div class="grid-item" style="--h:1; --w:1;">Aside</div>
+                        <div class="grid-item" style="--h:1; --w:4;">Footer</div>
+                    </div>
+                </div>
+
+                <h3>Полезные свойства</h3>
+                <ul class="prop-list">
+                    <li><code>display: grid;</code> — включает grid-контейнер.</li>
+                    <li><code>grid-template-columns / rows</code> — задает размеры колонок и строк.</li>
+                    <li><code>gap</code> — отступы.</li>
+                    <li><code>grid-template-areas</code> — именованные области для макета.</li>
+                    <li><code>repeat(auto-fit, minmax(250px, 1fr))</code> — адаптивная сетка.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 CSS Layout Guide. Создано VikaDevRussia.</p>
+        </div>
+    </footer>
+
+    <script>
+        const grid = document.getElementById('gridContainer');
+        const gridRadios = document.querySelectorAll('input[name="gridTemplate"]');
+
+        function updateGrid() {
+            const mode = document.querySelector('input[name="gridTemplate"]:checked').value;
+            if (mode === 'auto') {
+                grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(120px, 1fr))';
+                grid.style.gridTemplateRows = 'none';
+                grid.style.gridTemplateAreas = 'none';
+                Array.from(grid.children).forEach(item => {
+                    item.style.gridArea = 'none';
+                    item.style.height = 'auto';
+                });
+            } else if (mode === 'areas') {
+                grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                grid.style.gridTemplateRows = 'auto 1fr auto';
+                grid.style.gridTemplateAreas = `
+                    "header header header header"
+                    "nav main main aside"
+                    "footer footer footer footer"
+                `;
+                Array.from(grid.children).forEach(item => {
+                    item.style.height = 'auto';
+                });
+            } else if (mode === 'manual') {
+                grid.style.gridTemplateColumns = 'none';
+                grid.style.gridTemplateRows = 'none';
+                grid.style.gridTemplateAreas = 'none';
+                Array.from(grid.children).forEach(item => {
+                    const h = item.style.getPropertyValue('--h') || '1';
+                    const w = item.style.getPropertyValue('--w') || '1';
+                    item.style.gridArea = `span ${h} / span ${w}`;
+                    item.style.height = '100px';
+                });
+            }
+        }
+
+        gridRadios.forEach(radio => radio.addEventListener('change', updateGrid));
+        updateGrid();
+    </script>
+</body>
+</html>

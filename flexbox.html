@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox — Справочник</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">CSS Layout Guide</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="flexbox.html" class="nav-link active">Flexbox</a>
+                <a href="grid.html" class="nav-link">Grid</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="content">
+            <div class="container">
+                <h2>Основы Flexbox</h2>
+                <p>Flexbox — это режим верстки, оптимизированный для проектирования пользовательских интерфейсов. Он работает в одном измерении (строка или столбец).</p>
+                
+                <div class="flex-demo">
+                    <div class="flex-controls">
+                        <label>
+                            <input type="radio" name="flexDir" value="row" checked> row
+                        </label>
+                        <label>
+                            <input type="radio" name="flexDir" value="row-reverse"> row-reverse
+                        </label>
+                        <label>
+                            <input type="radio" name="flexDir" value="column"> column
+                        </label>
+                        <label>
+                            <input type="radio" name="flexDir" value="column-reverse"> column-reverse
+                        </label>
+                        <div class="divider"></div>
+                        <label>
+                            <input type="checkbox" id="justifyCenter"> justify-content: center
+                        </label>
+                        <label>
+                            <input type="checkbox" id="alignCenter"> align-items: center
+                        </label>
+                    </div>
+                    <div class="flex-container" id="flexContainer">
+                        <div class="flex-item">1</div>
+                        <div class="flex-item">2</div>
+                        <div class="flex-item">3</div>
+                        <div class="flex-item">4</div>
+                    </div>
+                </div>
+
+                <h3>Полезные свойства</h3>
+                <ul class="prop-list">
+                    <li><code>display: flex;</code> — включает flex-контейнер.</li>
+                    <li><code>flex-direction</code> — задает основную ось (row/column).</li>
+                    <li><code>justify-content</code> — выравнивание по главной оси.</li>
+                    <li><code>align-items</code> — выравнивание по поперечной оси.</li>
+                    <li><code>gap</code> — отступы между элементами.</li>
+                    <li><code>flex-wrap: wrap;</code> — перенос элементов на новую строку.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 CSS Layout Guide. Создано VikaDevRussia.</p>
+        </div>
+    </footer>
+
+    <script>
+        const container = document.getElementById('flexContainer');
+        const dirRadios = document.querySelectorAll('input[name="flexDir"]');
+        const justifyCb = document.getElementById('justifyCenter');
+        const alignCb = document.getElementById('alignCenter');
+
+        function updateFlex() {
+            const dir = document.querySelector('input[name="flexDir"]:checked').value;
+            container.style.flexDirection = dir;
+            container.style.justifyContent = justifyCb.checked ? 'center' : 'flex-start';
+            container.style.alignItems = alignCb.checked ? 'center' : 'stretch';
+        }
+
+        dirRadios.forEach(radio => radio.addEventListener('change', updateFlex));
+        justifyCb.addEventListener('change', updateFlex);
+        alignCb.addEventListener('change', updateFlex);
+    </script>
+</body>
+</html>
